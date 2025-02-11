@@ -1,4 +1,6 @@
 # LAMP
+
+for Frontend
 ```bash
 cd Frontend
 
@@ -9,11 +11,13 @@ npm i --save @fortawesome/free-solid-svg-icons npm i --save @fortawesome/free-re
 npm i --save @fortawesome/react-fontawesome@latest
 ```
 
+For Backend
 ```bash
 cd python
 docker build -t web-flask:V3 .
 ```
 
 ```bash
+cd 
 docker compose up -d
 ```
