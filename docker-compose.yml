@@ -1,0 +1,50 @@
+services:
+  sql_db:
+    build: ./mysql/
+    container_name: sql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_DATABASE: 'mysql_db'
+      MYSQL_USER: 'admin'
+      MYSQL_PASSWORD: '1234'
+    ports:
+      - '3304:3306'
+    # extra_hosts:
+    #   - "host.docker.internal:host-gateway"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "8003:80"
+    restart: always
+    environment:
+      PMA_HOST: sql_db
+    depends_on:
+      - sql_db
+  web:
+    # build: ./python/
+    container_name: web
+    image: web-flask:V3
+    depends_on:
+    - sql_db
+    ports:
+      - "5001:5000"
+  # nginx:
+  #   container_name: nginx
+  #   image: nginx:latest
+  #   volumes:
+  #     - ./conf.d:/etc/nginx/conf.d
+  #   depends_on:
+  #     - web
+  #   ports:
+  #     - "5001:5000"
+  react:
+    container_name: react
+    image: web-react-flask:1
+    depends_on:
+      - web
+    ports:
+      - 5179:5178
+volumes:
+  sql_data:
